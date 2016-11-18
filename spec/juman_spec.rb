@@ -64,10 +64,10 @@ describe Juman::Morpheme do
       it { is_expected.to be 2 }
     end
 
-    describe '#info' do
-      subject { super().info }
-      it { is_expected.to eq '情 報' }
-    end
+    # describe '#info' do
+    #   subject { super().info }
+    #   it { is_expected.to eq '情 報' }
+    # end
   end
 end
 describe Juman::Result do
