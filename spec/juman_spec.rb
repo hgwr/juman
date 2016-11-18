@@ -9,18 +9,65 @@ describe Juman::Morpheme do
   context 'when initialized with a line of the result of "見る"' do
     subject { Juman::Morpheme.new(
         "見る みる 見る 動詞 2 * 0 母音動詞 1 基本形 2 \"情 報\"\n") }
-    its(:surface){ should eq '見る' }
-    its(:pronunciation){ should eq 'みる' }
-    its(:base){ should eq '見る' }
-    its(:pos){ should eq '動詞' }
-    its(:pos_id){ should be 2 }
-    its(:pos_spec){ should be_nil }
-    its(:pos_spec_id){ should be 0 }
-    its(:type){ should eq '母音動詞' }
-    its(:type_id){ should be 1 }
-    its(:form){ should eq '基本形' }
-    its(:form_id){ should be 2 }
-    its(:info){ should eq '情 報' }
+    describe '#surface' do
+      subject { super().surface }
+      it { is_expected.to eq '見る' }
+    end
+
+    describe '#pronunciation' do
+      subject { super().pronunciation }
+      it { is_expected.to eq 'みる' }
+    end
+
+    describe '#base' do
+      subject { super().base }
+      it { is_expected.to eq '見る' }
+    end
+
+    describe '#pos' do
+      subject { super().pos }
+      it { is_expected.to eq '動詞' }
+    end
+
+    describe '#pos_id' do
+      subject { super().pos_id }
+      it { is_expected.to be 2 }
+    end
+
+    describe '#pos_spec' do
+      subject { super().pos_spec }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#pos_spec_id' do
+      subject { super().pos_spec_id }
+      it { is_expected.to be 0 }
+    end
+
+    describe '#type' do
+      subject { super().type }
+      it { is_expected.to eq '母音動詞' }
+    end
+
+    describe '#type_id' do
+      subject { super().type_id }
+      it { is_expected.to be 1 }
+    end
+
+    describe '#form' do
+      subject { super().form }
+      it { is_expected.to eq '基本形' }
+    end
+
+    describe '#form_id' do
+      subject { super().form_id }
+      it { is_expected.to be 2 }
+    end
+
+    describe '#info' do
+      subject { super().info }
+      it { is_expected.to eq '情 報' }
+    end
   end
 end
 describe Juman::Result do
@@ -28,15 +75,15 @@ describe Juman::Result do
     before { @result = Juman::Result.new(
       ["見る みる 見る 動詞 2 * 0 母音動詞 1 基本形 2 \"情 報\""].to_enum) }
     subject { @result }
-    it { should be_an Enumerable }
-    it { should respond_to :each }
-    it { should respond_to :[] }
-    it { should respond_to :at }
+    it { is_expected.to be_an Enumerable }
+    it { is_expected.to respond_to :each }
+    it { is_expected.to respond_to :[] }
+    it { is_expected.to respond_to :at }
     describe '#[]' do
       context 'when argument 0' do
         subject { @result[0] }
         it 'should return Juman::Morpheme' do
-          should be_an_instance_of Juman::Morpheme
+          is_expected.to be_an_instance_of Juman::Morpheme
         end
       end
     end
@@ -44,13 +91,13 @@ describe Juman::Result do
       context 'without block' do
         subject { @result.each }
         it 'should return Enumerator' do
-          should be_an_instance_of Enumerator
+          is_expected.to be_an_instance_of Enumerator
         end
       end
       context 'with block' do
         subject { @result.each{} }
         it 'should return self' do
-          should be @result
+          is_expected.to be @result
         end
       end
     end
@@ -62,7 +109,7 @@ describe Juman::Process do
     context 'when argument "見る"' do
       subject { @process.parse_to_enum('見る') }
       it 'should return Enumerator' do
-        should be_an_instance_of Enumerator
+        is_expected.to be_an_instance_of Enumerator
       end
     end
   end
@@ -70,19 +117,19 @@ end
 describe Juman do
   before { @juman = Juman.new }
   subject { @juman }
-  it { should respond_to :analyze }
+  it { is_expected.to respond_to :analyze }
   describe '#analyze' do
     context 'when argument "見る"' do
       before { @result = @juman.analyze('見る') }
       it 'should return Juman::Result' do
-        @result.should be_an_instance_of Juman::Result
+        expect(@result).to be_an_instance_of Juman::Result
       end
       describe 'returned Juman::Result' do
         subject { @result }
         describe '#[]' do
           context 'when argument 0' do
             it 'should return Juman::Morpheme' do
-              @result[0].should be_an_instance_of Juman::Morpheme
+              expect(@result[0]).to be_an_instance_of Juman::Morpheme
             end
           end
         end
