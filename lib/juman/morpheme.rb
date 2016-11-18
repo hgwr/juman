@@ -1,7 +1,12 @@
 class Juman
   class Morpheme
     def initialize(line)
-      attributes = line.split(/\s/)
+      attributes = 
+        if line =~ /\A /
+          [" ", " ", " ", "特殊", "1", "空白", "6", "*", "0", "*", "0", "NIL"]
+        else
+          line.split(/\s/)
+        end
       @surface, @pronunciation, @base, @pos = attributes.shift(4)
       @pos_id, @pos_spec_id, @type_id, @form_id =
         attributes.values_at(0, 2, 4, 6).map{|id_str| id_str.to_i }

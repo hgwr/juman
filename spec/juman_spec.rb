@@ -69,7 +69,73 @@ describe Juman::Morpheme do
     #   it { is_expected.to eq '情 報' }
     # end
   end
+
+  context 'when initialized with a line of the result of " "(blank)' do
+    subject {
+      Juman::Morpheme.new("  \\  \\  特殊 1 空白 6 * 0 * 0 NIL\n") }
+    
+    describe '#surface' do
+      subject { super().surface }
+      it { is_expected.to eq ' ' }
+    end
+
+    describe '#pronunciation' do
+      subject { super().pronunciation }
+      it { is_expected.to eq ' ' }
+    end
+
+    describe '#base' do
+      subject { super().base }
+      it { is_expected.to eq ' ' }
+    end
+
+    describe '#pos' do
+      subject { super().pos }
+      it { is_expected.to eq '特殊' }
+    end
+
+    describe '#pos_id' do
+      subject { super().pos_id }
+      it { is_expected.to be 1 }
+    end
+
+    describe '#pos_spec' do
+      subject { super().pos_spec }
+      it { is_expected.to eq '空白' }
+    end
+
+    describe '#pos_spec_id' do
+      subject { super().pos_spec_id }
+      it { is_expected.to be 6 }
+    end
+
+    describe '#type' do
+      subject { super().type }
+      it { is_expected.to eq nil }
+    end
+
+    describe '#type_id' do
+      subject { super().type_id }
+      it { is_expected.to be 0 }
+    end
+
+    describe '#form' do
+      subject { super().form }
+      it { is_expected.to eq nil }
+    end
+
+    describe '#form_id' do
+      subject { super().form_id }
+      it { is_expected.to be 0 }
+    end
+
+    # describe '#info' do
+    #   subject { super().info }
+    #   it { is_expected.to eq '情 報' }
+    # end
+  end
 end
+
 describe Juman::Result do
   context 'when initialized with an Enumerator of the result of "見る"' do
     before { @result = Juman::Result.new(
@@ -103,6 +169,7 @@ describe Juman::Result do
     end
   end
 end
+
 describe Juman::Process do
   before { @process = Juman::Process.new('juman -e2 -B') }
   describe '#parse_to_enum' do
@@ -114,6 +181,7 @@ describe Juman::Process do
     end
   end
 end
+
 describe Juman do
   before { @juman = Juman.new }
   subject { @juman }
