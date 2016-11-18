@@ -137,3 +137,41 @@ describe Juman do
     end
   end
 end
+
+describe Juman do
+  before { @juman = Juman.new(juman_command: ENV['JUMAN_CMD'] || '/opt/juman-7.01/bin/juman') }
+  subject { @juman }
+  it { is_expected.to respond_to :analyze }
+  describe '#analyze' do
+    context 'when analyze sample.txt' do
+      before {
+        sample_txt = File.expand_path(File.join(File.dirname(__FILE__), 'sample.txt'))
+        @result = @juman.analyze(IO.read(sample_txt))
+      }
+      it 'should return Juman::Result' do
+        expect(@result).to be_an_instance_of Juman::Result
+      end
+      describe 'returned Juman::Result' do
+        subject { @result }
+        describe '#[]' do
+          context 'when argument 0' do
+            it 'should return Juman::Morpheme' do
+              expect(@result[0]).to be_an_instance_of Juman::Morpheme
+            end
+            describe Juman::Morpheme do
+              subject { @result[0] }
+              describe '#surface' do
+                subject { super().surface }
+                it { is_expected.to eq 'カサつく' }
+              end
+              describe '#pronunciation' do
+                subject { super().pronunciation }
+                it { is_expected.to eq 'カサつく' }
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end
