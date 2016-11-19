@@ -19,5 +19,9 @@ class Juman
     end
 
     alias at []
+
+    def length
+      @morphemes.length
+    end
   end
 end

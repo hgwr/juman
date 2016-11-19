@@ -243,3 +243,43 @@ describe Juman do
     end
   end
 end
+
+describe 'handle juman @ output' do
+  before { @juman = Juman.new(juman_command: ENV['JUMAN_CMD'] || '/opt/juman-7.01/bin/juman') }
+  subject { @juman }
+  it { is_expected.to respond_to :analyze }
+  describe '#analyze' do
+    context 'when analyze' do
+      before {
+        @result = @juman.analyze("私は愛します。")
+      }
+      it 'should return Juman::Result' do
+        expect(@result).to be_an_instance_of Juman::Result
+      end
+      describe 'returned Juman::Result' do
+        subject { @result }
+        describe "length" do
+            it 'should have six Morphemes' do
+              expect(@result.length).to eq 6
+            end          
+        end
+        describe '#[]' do
+          %w{ 私 は 愛す 愛する ます 。 }.each_with_index do |correct_word, index|
+            context "when index #{index}" do
+              it 'should return Juman::Morpheme' do
+                expect(@result[index]).to be_an_instance_of Juman::Morpheme
+              end
+              describe Juman::Morpheme do
+                subject { @result[index] }
+                describe '#base' do
+                  subject { super().base }
+                  it { is_expected.to eq correct_word }
+                end
+              end
+            end
+          end          
+        end
+      end
+    end
+  end
+end

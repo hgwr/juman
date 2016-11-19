@@ -8,7 +8,7 @@ class Juman
   
   def initialize(options = {})
     options[:juman_command] ||= "juman"
-    options[:juman_options] ||= "-b -e" # -B -e2
+    options[:juman_options] ||= "-B -e" # -B -e2
     
     @juman_command = `which #{options[:juman_command]}`.strip
     raise JumanNotFoundError unless $?.success?
