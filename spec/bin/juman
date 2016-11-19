@@ -6,6 +6,8 @@ require 'optparse'
 opt = OptionParser.new
 opt.on('-e2')
 opt.on('-B')
+opt.on('-e')
+opt.on('-b')
 opt.parse!(ARGV)
 
 gets

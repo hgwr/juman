@@ -8,9 +8,11 @@ class Juman
   
   def initialize(options = {})
     options[:juman_command] ||= "juman"
+    options[:juman_options] ||= "-b -e" # -B -e2
+    
     @juman_command = `which #{options[:juman_command]}`.strip
     raise JumanNotFoundError unless $?.success?
-    @process = Process.new("'#{@juman_command}' -B -e2")
+    @process = Process.new("'#{@juman_command}' #{options[:juman_options]}")
   end
 
   def analyze(text)
